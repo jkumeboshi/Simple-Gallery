@@ -432,6 +432,12 @@ fun Activity.fixDateTaken(paths: ArrayList<String>, showToasts: Boolean, hasResc
                 val formatter = SimpleDateFormat(format, Locale.getDefault())
                 val timestamp = formatter.parse(dateTime).time
 
+                try {
+                    File(path).setLastModified(timestamp)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
                 val uri = getFileUri(path)
                 ContentProviderOperation.newUpdate(uri).apply {
                     val selection = "${Images.Media.DATA} = ?"
